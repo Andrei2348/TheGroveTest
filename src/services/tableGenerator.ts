@@ -19,9 +19,9 @@ export const generateRows = (numColumns: number): Promise<Row[]> => {
     setTimeout(() => {
       const numRows = Math.floor(Math.random() * 99) + 2;
       const rows = Array.from({ length: numRows }, (_, i) => ({
-        id: (i + 1),
+        id: i,
         name: `Заказ ${i + 1}`,
-        cells: Array.from({ length: numColumns }, () => Math.random() >= 0.5),
+        cells: Array.from({ length: numColumns }, () => Math.random() >= 0.5)
       }));
       resolve(rows);
     }, 1500);

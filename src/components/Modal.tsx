@@ -2,17 +2,16 @@ import React from 'react';
 
 interface CustomModalProps {
   isOpen: boolean;
-  modalConfirm: () => void;
-  modalClose: () => void;
-  modalType: 'редактировать' | 'удалить';
+  rowId: number;
+  value: boolean
+  modalCloseHandler: () => void;
+  onDeleteHandler: (rowId: number) => void;
+  onEditHandler: (value: boolean) => void;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ isOpen, modalConfirm, modalClose, modalType }) => {
+const CustomModal: React.FC<CustomModalProps> = ({ isOpen, rowId, value, modalCloseHandler, onDeleteHandler, onEditHandler }) => {
   if (!isOpen) return null;
-
-  const handleModalConfirm = () => modalConfirm();
-  const handleModalClose = () => modalClose();
-
+  
   return (
     <div style={{
       position: 'fixed',
@@ -34,10 +33,11 @@ const CustomModal: React.FC<CustomModalProps> = ({ isOpen, modalConfirm, modalCl
         flexDirection: 'column',
         gap: '10px',
       }}>
-        <h2 style={{color: 'black',}}>{modalType === 'delete' ? 'Удалить задание' : 'Редактировать задание'}</h2>
-        <p style={{color: 'black',}}>Вы действительно хотите {modalType} это задание?</p>
-        <button onClick={handleModalConfirm}>Да</button>
-        <button onClick={handleModalClose}>Нет</button>
+        <h2 style={{color: 'black',}}>Заказ № {rowId + 1}</h2>
+        <p style={{color: 'black',}}>Обработка {value ? 'выполнена' : 'не выполнена'}</p>
+        <button onClick={() => onEditHandler(value)}>Изменить</button>
+        <button onClick={() => onDeleteHandler(rowId)}>Удалить задание</button>
+        <button onClick={() => modalCloseHandler()}>Закрыть</button>
       </div>
     </div>
   );

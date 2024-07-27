@@ -8,9 +8,11 @@ const App: React.FC = () => {
   const [columns, setColumns] = useState<string[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<'edit' | 'delete'>('');
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
+  const [status, setStatus] = useState<boolean>(false);
+  const [selectedCol, setSelectedCol] = useState<number | null>(null);
 
+  // Рендеринг таблицы
   useEffect(() => {
     const fetchData = async () => {
       const cols = await generateColumns();
@@ -21,50 +23,68 @@ const App: React.FC = () => {
     fetchData();
   }, []);
 
+  // Функция добавления задания
   const handleAddRow = () => {
     const lastObjectNumber: number = rows.slice(-1)[0].id;
     const newRow: Row = {
       id: lastObjectNumber + 1,
-      name: `Заказ ${lastObjectNumber + 1}`,
+      name: `Заказ ${lastObjectNumber + 2}`,
       cells: Array.from({ length: columns.length }, () => Math.random() >= 0.5),
     };
     setRows([...rows, newRow]);
   };
 
-  const handleEditRow = (index: number) => {
-    setSelectedRow(index);
-    setModalType('edit');
-    setIsModalOpen(true);
-  };
-
-  const handleDeleteRow = (index: number) => {
-    setSelectedRow(index);
-    setModalType('delete');
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
+  // Функция закрытия модального окна
+  const modalCloseHandler = () => {
     setIsModalOpen(false);
     setSelectedRow(null);
   };
 
-  const handleModalConfirm = () => {
-    if (modalType === 'delete') {
-      const newRows = rows.filter((_, i) => i !== selectedRow!);
+  // Функция открытия модального окна
+  const openModalHandler = (index: number, rowId: number, value: boolean) => {
+    setIsModalOpen(true);
+    setSelectedRow(rowId);
+    setSelectedCol(index);
+    setStatus(value);
+  }
+
+  // Удаление выбранного задания
+  const onDeleteHandler = (rowId: number): void => {
+    setSelectedRow(rowId);
+    const newRows = rows.filter(row => row.id !== selectedRow);
+    setRows(newRows);
+    modalCloseHandler();
+  }
+
+  // Изменение статуса обработки заказа
+  const onEditHandler = (value: boolean): void => {
+    const newRows = [...rows];
+    const rowToUpdate = newRows.find(order => order.id === selectedRow);
+    if(rowToUpdate !== undefined && selectedCol !== null){
+      rowToUpdate.cells[selectedCol] = !status;
+      setStatus(!value);
       setRows(newRows);
-    } else if (modalType === 'edit') {
-      const newRows = [...rows];
-      newRows[selectedRow!].cells = Array.from({ length: columns.length }, () => Math.random() >= 0.5);
-      setRows(newRows);
-    }
-    handleModalClose();
-  };
+    } 
+  }
+
 
   return (
     <div>
-      <Table columns={columns} rows={rows} onEditRow={handleEditRow} onDeleteRow={handleDeleteRow} />
+      <Table 
+        columns={columns} 
+        rows={rows}
+        openModalHandler={openModalHandler}
+      />
+      
       <button onClick={handleAddRow}>Add Row</button>
-      <Modal isOpen={isModalOpen} modalClose={handleModalClose} modalConfirm={handleModalConfirm} modalType={modalType} />
+      <Modal
+        value={status}
+        rowId={selectedRow}
+        isOpen={isModalOpen} 
+        modalCloseHandler={modalCloseHandler} 
+        onEditHandler={onEditHandler}
+        onDeleteHandler={onDeleteHandler}
+      />
     </div>
   );
 };

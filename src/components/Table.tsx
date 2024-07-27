@@ -4,11 +4,11 @@ import type { Row } from '../services/tableGenerator'
 interface TableProps {
   columns: string[];
   rows: Row[];
-  onEditRow: (index: number) => void;
-  onDeleteRow: (index: number) => void;
+  openModalHandler: (index: number, rowId: number, value: boolean) => void; 
 }
+const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
 
-const Table: React.FC<TableProps> = ({ columns, rows, onEditRow, onDeleteRow }) => (
+  return (
   <table border="1">
     <thead>
       <tr>
@@ -23,11 +23,11 @@ const Table: React.FC<TableProps> = ({ columns, rows, onEditRow, onDeleteRow }) 
         <tr key={rowIndex}>
           <td>
             {row.name}
-            <button onClick={() => onEditRow(rowIndex)}>Редактировать</button>
-            <button onClick={() => onDeleteRow(rowIndex)}>Удалить</button>
+            
           </td>
           {row.cells.map((cell, cellIndex) => (
             <td
+              onClick={() => openModalHandler(cellIndex, row.id, cell)}
               key={cellIndex}
               style={{ backgroundColor: cell ? 'lightgreen' : 'white' }}
             ></td>
@@ -36,6 +36,7 @@ const Table: React.FC<TableProps> = ({ columns, rows, onEditRow, onDeleteRow }) 
       ))}
     </tbody>
   </table>
-);
+  )
+};
 
 export default Table;
