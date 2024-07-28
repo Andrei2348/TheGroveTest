@@ -11,6 +11,7 @@ export interface Obj {
 }
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [columns, setColumns] = useState<string[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -27,7 +28,9 @@ const App: React.FC = () => {
       const rowsData = await generateRows(cols.length);
       setColumns(cols);
       setRows(rowsData);
+      setIsLoading(false)
     };
+    setIsLoading(true);
     fetchData();
   }, []);
 
@@ -89,7 +92,7 @@ const App: React.FC = () => {
       setRows(newRows);
     } 
   }
-
+  if (isLoading) return null;
   return (
     <div>
       <Table 
