@@ -1,5 +1,6 @@
 import React from 'react';
-import type { Row } from '../../services/tableGenerator'
+import type { Row } from '../../services/tableGenerator';
+import './style.css';
 
 interface TableProps {
   columns: string[];
@@ -10,19 +11,18 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
 
   return (
-  <table border="1">
+  <table className='table' border="1">
     <thead>
       <tr>
-        <th></th>
         {columns.map((col, index) => (
-          <th key={index}>{col}</th>
+          <th className='table__column-title' key={index}>{col}</th>
         ))}
       </tr>
     </thead>
     <tbody>
       {rows.map((row, rowIndex) => (
         <tr key={rowIndex}>
-          <td>
+          <td className='table__row-title'>
             {row.name}
             
           </td>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Modal from './components/modal/Modal';
 import Table from './components/table/Table';
 import { generateColumns, generateRows } from './services/tableGenerator';
-import type { Row } from './services/tableGenerator'
+import type { Row } from './services/tableGenerator';
+import './App.css';
 
 export interface Obj {
   status: boolean;
@@ -94,14 +95,14 @@ const App: React.FC = () => {
   }
   if (isLoading) return null;
   return (
-    <div>
+    <div className='main'>
       <Table 
         columns={columns} 
         rows={rows}
         openModalHandler={openModalHandler}
       />
       
-      <button onClick={handleAddRow}>Add Row</button>
+      <button className='add__task-button button' onClick={handleAddRow}>Добавить заказ</button>
       <Modal
         obj={obj}
         isOpen={isModalOpen} 

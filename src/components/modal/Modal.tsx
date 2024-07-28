@@ -18,8 +18,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ obj, isOpen, modalCloseHandle
       <div className='modal__window' >
         <h2 className='modal__title'>Заказ № {obj.rowId + 1}</h2>
         <p className='modal__text'>Обработка {obj.status ? 'выполнена' : 'не выполнена'}</p>
-        <button className='modal__button' onClick={() => onEditHandler(obj.status)}>Изменить статус</button>
-        <button className='modal__button' onClick={() => onDeleteHandler(obj.rowId)}>Удалить задание</button>
+        <button className='modal__button button' onClick={() => onEditHandler(obj.status)}>Изменить статус</button>
+        <button className='modal__button button' onClick={() => onDeleteHandler(obj.rowId)}>Удалить задание</button>
         <button className='modal__close-button' onClick={() => modalCloseHandler()}></button>
       </div>
     </div>
