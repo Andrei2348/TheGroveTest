@@ -1,11 +1,12 @@
 import React from 'react';
-import type { Row } from '../services/tableGenerator'
+import type { Row } from '../../services/tableGenerator'
 
 interface TableProps {
   columns: string[];
   rows: Row[];
   openModalHandler: (index: number, rowId: number, value: boolean) => void; 
 }
+
 const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
 
   return (
@@ -27,9 +28,9 @@ const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
           </td>
           {row.cells.map((cell, cellIndex) => (
             <td
-              onClick={() => openModalHandler(cellIndex, row.id, cell)}
-              key={cellIndex}
-              style={{ backgroundColor: cell ? 'lightgreen' : 'white' }}
+            key={cellIndex}
+            style={{ backgroundColor: cell ? 'lightgreen' : 'white' }}
+            onClick={() => openModalHandler(cellIndex, row.id, cell)}
             ></td>
           ))}
         </tr>

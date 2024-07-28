@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import Modal from './components/Modal';
-import Table from './components/Table';
+import Modal from './components/modal/Modal';
+import Table from './components/table/Table';
 import { generateColumns, generateRows } from './services/tableGenerator';
 import type { Row } from './services/tableGenerator'
+
+export interface Obj {
+  status: boolean;
+  rowId: number | null;
+  selectedCol: number | null;
+}
 
 const App: React.FC = () => {
   const [columns, setColumns] = useState<string[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<number | null>(null);
-  const [status, setStatus] = useState<boolean>(false);
-  const [selectedCol, setSelectedCol] = useState<number | null>(null);
+  const [obj, setObj] = useState<Obj>({
+    status: false,
+    rowId: null,
+    selectedCol: null
+  })
 
   // Рендеринг таблицы
   useEffect(() => {
@@ -37,21 +45,33 @@ const App: React.FC = () => {
   // Функция закрытия модального окна
   const modalCloseHandler = () => {
     setIsModalOpen(false);
-    setSelectedRow(null);
+    setObj(obj => ({
+      ...obj,
+      status: false,
+      rowId: null,
+      selectedCol: null
+    }));
   };
 
   // Функция открытия модального окна
   const openModalHandler = (index: number, rowId: number, value: boolean) => {
     setIsModalOpen(true);
-    setSelectedRow(rowId);
-    setSelectedCol(index);
-    setStatus(value);
+
+    setObj(obj => ({
+      ...obj,
+      status: value,
+      rowId: rowId,
+      selectedCol: index
+    }));
   }
 
   // Удаление выбранного задания
   const onDeleteHandler = (rowId: number): void => {
-    setSelectedRow(rowId);
-    const newRows = rows.filter(row => row.id !== selectedRow);
+    setObj(obj => ({
+      ...obj,
+      rowId: rowId,
+    }));
+    const newRows = rows.filter(row => row.id !== obj.rowId);
     setRows(newRows);
     modalCloseHandler();
   }
@@ -59,14 +79,16 @@ const App: React.FC = () => {
   // Изменение статуса обработки заказа
   const onEditHandler = (value: boolean): void => {
     const newRows = [...rows];
-    const rowToUpdate = newRows.find(order => order.id === selectedRow);
-    if(rowToUpdate !== undefined && selectedCol !== null){
-      rowToUpdate.cells[selectedCol] = !status;
-      setStatus(!value);
+    const rowToUpdate = newRows.find(order => order.id === obj.rowId);
+    if(rowToUpdate !== undefined && obj.selectedCol !== null){
+      rowToUpdate.cells[obj.selectedCol] = !obj.status;
+      setObj(obj => ({
+      ...obj,
+      status: !value
+    }));
       setRows(newRows);
     } 
   }
-
 
   return (
     <div>
@@ -78,8 +100,7 @@ const App: React.FC = () => {
       
       <button onClick={handleAddRow}>Add Row</button>
       <Modal
-        value={status}
-        rowId={selectedRow}
+        obj={obj}
         isOpen={isModalOpen} 
         modalCloseHandler={modalCloseHandler} 
         onEditHandler={onEditHandler}
