@@ -22,3 +22,6 @@
 .table__row:last-child{
   border-right: none;
 }
+.table__body{
+  width: 100%;
+}

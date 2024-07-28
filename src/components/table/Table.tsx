@@ -19,7 +19,7 @@ const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
         ))}
       </tr>
     </thead>
-    <tbody>
+    <tbody className='table__body'>
       {rows.map((row, rowIndex) => (
         <tr key={rowIndex}>
           <td className='table__row-title'>
