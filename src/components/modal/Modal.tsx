@@ -1,21 +1,20 @@
 import React from 'react';
 import './style.css';
 import { useSelector } from 'react-redux';
+import type { RootState } from '../../store';
 import type { Obj } from '../../features/tableSlice';
 
 interface CustomModalProps {
   obj: Obj;
-  isOpen: boolean;
   modalCloseHandler: () => void;
   onDeleteHandler: (rowId: number) => void;
   onEditHandler: (value: boolean) => void;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ obj, modalCloseHandler, onDeleteHandler, onEditHandler }) => {
-  const isOpen = useSelector(state => state.table.isOpen);
-  const status = useSelector(state => state.table.obj.status);
-  const rowId = useSelector(state => state.table.obj.rowId);
-  console.log(status)
+const CustomModal: React.FC<CustomModalProps> = ({ modalCloseHandler, onDeleteHandler, onEditHandler }) => {
+  const isOpen = useSelector((state: RootState) => state.table.isOpen);
+  const status = useSelector((state: RootState) => state.table.obj.status);
+  const rowId = useSelector((state: RootState) => state.table.obj.rowId);
   if (!isOpen) return null;
   
   return (

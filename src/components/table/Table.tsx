@@ -11,7 +11,7 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ columns, rows, openModalHandler }) => {
 
   return (
-  <table className='table' border="1">
+  <table className='table' border='1'>
     <thead>
       <tr>
         {columns.map((col, index) => (

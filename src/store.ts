@@ -1,7 +1,5 @@
-// src/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import tableReducer from './features/tableSlice';
-// import modalReducer from './features/modalSlice';
 
 export const store = configureStore({
   reducer: {
