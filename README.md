@@ -1,30 +1,39 @@
-# React + TypeScript + Vite
+## О репозитории
+Репозиторий с исходным кодом веб-приложения таблицыы заданий с исходным кодом.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+### Необходимо:
+1. Интерфейс (одна страница с таблицей):
+- Строки будут называться Заказ с порядковым номером (от 1 до N), столбцы - Обработка с порядковым номером (от 1 до N).
+- Ячейки закрашиваются двумя цветами (для true один цвет, для false другой).
+- При перезагрузке страницы меняется количество столбцов, строк и расположение закрашенных ячеек.
+- С помощью нажатий на кнопки мы можем добавить строку, отредактировать строку, удалить строку (модальное окно для подтверждения операции).
+2. Необходимо написать две асинхронные функции.
+- Первая функция генерирует случайное количество столбцов (от 2 до 100) с названиями которая возвращает результат через 1.5 секунды.
+- Вторая функция генерирует случайное количество строк (от 2 до 100) которая содержит ячейки со случайным булевым значением. Функция возвращает результат через 1.5 секунды.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Стек
+- React
+- TypeScript
+- Vite
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## Что сделано
+1. Сверстан сайт согласно заданию
+2. Написаны две асинхронные функции:
+- Первая функция генерирует случайное количество столбцов (от 2 до 100) с названиями которая возвращает результат через 1.5 секунды.
+- Вторая функция генерирует случайное количество строк (от 2 до 100) которая содержит ячейки со случайным булевым значением. Функция возвращает результат через 1.5 секунды.
+3. Модальное окно для редактирования выбранной ячейки и для удаления выбранного задания.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Примечания
+В ветке withStore реализован функционал с применением менеджера состояний redux
+
+## Запуск
+В директории приложения ввести:
+npm i
+npm run dev
+   
+## Автор
+Андрей Макаревич  
